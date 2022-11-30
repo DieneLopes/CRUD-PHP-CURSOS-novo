@@ -28,6 +28,7 @@ abstract class UserSecurity
     {
         return $_SESSION['user_escola'];
     }
+    
     public static function isAdmin():bool
     {
         $user = UserSecurity:: getUser();
