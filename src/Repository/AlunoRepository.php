@@ -34,7 +34,7 @@ class AlunoRepository implements RepositoryInterface
 
     public function buscarUm(string $id): object
     {
-        $sql = "SELECT * FROM ".self::TABLE." WHERE id = '{$id}'";
+        $sql = "SELECT * FROM " . self::TABLE . " WHERE id = '{$id}'";
         $query = $this->pdo->query($sql);
         $query->execute();
         return $query->fetchObject(Aluno::class); 
@@ -42,7 +42,7 @@ class AlunoRepository implements RepositoryInterface
 
     public function inserir(object $dados): object
     {
-        $matricula = date('Ymds') . substr($dados->cpf, -2);
+        // $matricula = date('Ymds') . substr($dados->cpf, -2);
 
         $sql = "INSERT INTO " . self::TABLE . 
             "(nome, email, cpf, matricula, status, dataNascimento, genero) " . 

@@ -43,7 +43,7 @@ class ProfessorRepository implements RepositoryInterface
     public function inserir(object $dados): object
     {
         $sql = "INSERT INTO " . self::TABLE .
-            "(nome, status,endereco, formacao, cpf) " .
+            "(nome, status, endereco, formacao, cpf) " .
             "VALUES (
                 '{$dados->nome}', 
                 '1', 

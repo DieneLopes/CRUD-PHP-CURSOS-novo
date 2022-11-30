@@ -6,30 +6,23 @@ namespace App\Controller;
 
 use App\Model\Aluno;
 use App\Repository\AlunoRepository;
-use App\Repository\CursoRepository;
-use App\Security\UserSecurity;
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use Exception;
 
 class AlunoController extends AbstractController
 {
     private AlunoRepository $repository;
-
     public function __construct()
     {
         $this->repository = new AlunoRepository();
     }
-
+    
     public function listar(): void
     {
-       $this->checkLogin();
-       
-       if(UserSecurity::isLogged() === false)
-        {
-            die('Erro, precisa estar logado');
-        }
+        $rep = new AlunoRepository();
 
-        $alunos = $this->repository->buscarTodos();
+        $alunos = $rep->buscarTodos();
 
         $this->render('aluno/listar', [
             'alunos' => $alunos,
@@ -50,8 +43,10 @@ class AlunoController extends AbstractController
         $aluno->email = $_POST['email'];
         $aluno->genero = $_POST['genero'];
 
+        $rep = new AlunoRepository();
+
         try {
-            $this->repository->inserir($aluno);
+            $rep->inserir($aluno);
         } catch (Exception $exception) {
             if (true === str_contains($exception->getMessage(), 'cpf')) {
                 die('CPF ja existe');
@@ -99,52 +94,65 @@ class AlunoController extends AbstractController
 
     public function excluir(): void
     {
+        // $this->render('aluno/excluir');
         $id = $_GET['id'];
-
-        $this->repository->excluir($id);
-        
+        $rep = new AlunoRepository();
+        $rep->excluir($id);
         $this->redirect('/alunos/listar');
 
     }
 
-    private function renderizar(iterable $alunos)
+    private function redirecionar(iterable $alunos)
     {
         $resultado = '';
         foreach ($alunos as $aluno) {
-        $resultado .= "
+            $resultado .= "
             <tr>
                 <td>{$aluno->id}</td>
                 <td>{$aluno->nome}</td>
-            </tr>
-            ";
-            }
-            return $resultado;
+                <td>{$aluno->matricula}</td>
+                <td>{$aluno->email}</td>
+                <td>{$aluno->status}</td>
+                <td>{$aluno->genero}</td>
+                <td>{$aluno->dataNascimento}</td>
+                <td>{$aluno->cpf}</td>
+            </tr>";
         }
+        return $resultado;
+    }
+
     public function relatorio(): void
     {
         $hoje = date('d/m/Y');
-        $alunos = $this->repository->buscarTodos();
-        $design =  "
-            <h1>Relatorio de Alunos</h1>
-            <hr>
-            <em>Gerado em {$hoje}</em>
-            <br>
-            <table border='1' width='100%' style='text-align: left ;margin-top: 30px;'>
-                <thead>
-                    <tr>
-                        <th style='text-align: left ;margin-top: 30px;'>Nome</th>
-                    </tr>
-                </thead>
-                <tbody>
-                ".$this->renderizar($id)."
-                ".$this->renderizar($alunos)."
-                </tbody>
-            </table>
+        $aluno = $this->repository->buscarTodos();
+        $desing = "
+        <h1>Relatorio de Alunos</h1>
+        <hr>
+        <em>Gerando em {$hoje}</em>
+        <hr>
+        <table border='1' width='100%' style='margin-top: 30px;'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Matricula</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Gênero</th>
+                    <th>Data Nascimento</th>
+                    <th>CPF</th>
+                </tr>
+            </thead>
+            <tbody>
+            " . $this->redirecionar($aluno) . "
+            </tbody>
+        </table>
         ";
+
         $dompdf = new Dompdf();
+        $dompdf->loadHtml($desing); // carrega o conteudo do PDF
         $dompdf->setPaper('A4', 'portrait'); // tamanho da pagina
-        $dompdf->loadHtml($design); //carrega o conteudo do PDF
-        $dompdf->render(); //aqui renderiza 
-        $dompdf->stream('relatorio-aluno.pdf',['Attachment' => 0,]); //é aqui que a magica acontece
+        $dompdf->render(); // aqui renderiza
+        $dompdf->stream('Relatorio-Alunos.pdf', ['Attachment' => 0]); // é aqui que a magica acontece
     }
 }
