@@ -6,7 +6,7 @@ namespace App\Model;
 
 //aqui vai ficar a definição do caminho até essa classe
 
-class Categoria extends Pessoa
+class Categoria extends Curso
 {
     public string $nome;
 }

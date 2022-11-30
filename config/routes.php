@@ -49,6 +49,7 @@ $rotas = [
     '/categorias/novo' => criarRota(CategoriaController::class, 'cadastrar'),
     '/categorias/editar' => criarRota(CategoriaController::class, 'editar'),
     '/categorias/excluir' => criarRota(CategoriaController::class, 'excluir'),
+    '/categorias/relatorio' => criarRota(CategoriaController::class, 'relatorio')
 ];
 
 return $rotas;

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-//aqui vai ficar a definição do caminho até essa classe
+use DateTime;
 
-class Curso
+//aqui vai ficar a definição do caminho até essa classe
+class Curso extends Pessoa
 {
     public string $nome;  
     public int $cargaHoraria;
