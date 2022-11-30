@@ -38,13 +38,5 @@ abstract class UserSecurity
         }
         return true;
     }
-
 }
-
-
-
-
-
-
-
 ?>

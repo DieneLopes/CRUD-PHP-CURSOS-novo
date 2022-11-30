@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Repository\CursoRepository;
+
 class CursoController extends AbstractController
 {
     public function listar(): void

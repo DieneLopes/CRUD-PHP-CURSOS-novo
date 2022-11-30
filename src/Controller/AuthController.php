@@ -39,7 +39,6 @@ class AuthController extends AbstractController
             UserSecurity::connect($user);
 
             $this->redirect('/alunos/listar');
-
         }
         
         // $this->render('auth/login', [], false);

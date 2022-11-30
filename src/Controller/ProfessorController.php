@@ -92,7 +92,7 @@ class ProfessorController extends AbstractController
     {
         $hoje = date('d/m/Y');
 
-        $professors = $this->repository->buscarTodos();
+        $professores = $this->repository->buscarTodos();
 
         $design = "
             <h1>Relatorio de Professors</h1>
@@ -108,18 +108,18 @@ class ProfessorController extends AbstractController
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{$professors[0]->id}</td>
-                        <td>{$professors[0]->nome}</td>
+                        <td>{$professores[0]->id}</td>
+                        <td>{$professoers[0]->nome}</td>
                     </tr>
 
                     <tr>
-                        <td>{$professors[1]->id}</td>
-                        <td>{$professors[1]->nome}</td>
+                        <td>{$professores[1]->id}</td>
+                        <td>{$professores[1]->nome}</td>
                     </tr>
 
                     <tr>
-                        <td>{$professors[2]->id}</td>
-                        <td>{$professors[2]->nome}</td>
+                        <td>{$professores[2]->id}</td>
+                        <td>{$professores[2]->nome}</td>
                     </tr>
                 </tbody>
             </table>
@@ -131,8 +131,6 @@ class ProfessorController extends AbstractController
         $dompdf->loadHtml($design); //carrega o conteudo do PDF
 
         $dompdf->render(); //aqui renderiza 
-        $dompdf->stream('relatorio-professors.pdf', [
-            'Attachment' => 0,
-        ]); //é aqui que a magica acontece
+        $dompdf->stream('relatorio-professores.pdf', ['Attachment' => 0,]); //é aqui que a magica acontece
     }
 }

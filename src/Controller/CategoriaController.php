@@ -10,8 +10,7 @@ use App\Security\UserSecurity;
 use Dompdf\Dompdf;
 
 class CategoriaController extends AbstractController
-{
-   
+{   
     private CategoriaRepository $repository;
 
     public function __construct()

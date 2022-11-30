@@ -17,7 +17,6 @@ class UserController extends AbstractController
         $this->repository = new UserRepository();
     }
 
-
     public function list(): void
     {
         if(UserSecurity::isLogged() === false)
@@ -57,6 +56,7 @@ class UserController extends AbstractController
 
         $this->redirect('/usuarios/listar');
     }
+    
     public function remove(): void
     {
         $id = $_GET['id'];
